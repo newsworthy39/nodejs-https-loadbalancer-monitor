@@ -1,0 +1,27 @@
+{
+  "name": "nodejs-monitor",
+  "version": "1.0.0",
+  "description": "NodeJS monitor for golang-https-accelerator",
+  "main": "node.js",
+  "dependencies": {
+    "https": "^1.0.0",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newsworthy39/nodejs-https-loadbalancer-monitor.git"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "newsworthy39",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/newsworthy39/nodejs-https-loadbalancer-monitor/issues"
+  },
+  "homepage": "https://github.com/newsworthy39/nodejs-https-loadbalancer-monitor#readme"
+}
