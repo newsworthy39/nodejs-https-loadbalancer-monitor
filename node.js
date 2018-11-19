@@ -6,7 +6,6 @@ const IP   = process.env.IP || "localhost"
 const DEBUG = process.env.DEBUG || false
 
 var myjsonobject = { "backend":`http://${IP}:${PORT}`}
-var global = {};
 
 // Register shutdown-function.
 var register = function(callback) {
@@ -26,21 +25,6 @@ var register = function(callback) {
 }
 
 
-// Register shutdown-function.
-var shutdown = function() {
-	var mypath = "https://api.clouddom.eu/loadbalancer/11/backends/" + global.backend;
-	request.delete(mypath, { 
-		headers: {
-			"accesskey" : "test",
-			"secret":"test"	
-		},
-	},function(error, response, body) {
-		process.exit();
-	});
-}
-process.on( "SIGINT", shutdown);
-
-
 // Setup server-part.
 const app = require('http').createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/html', 'X-ServedBy': IP + ":" + PORT });
@@ -48,10 +32,24 @@ const app = require('http').createServer(function (req, res) {
 });
 
 app.listen(PORT, () => {
-	console.log(`The server is listening on *:${PORT}`);
-	register( function(body) {
-		var id = body.backendid
-		global.backend = id;
+	register( function(result) {
+		var id = result.backendid;
+
+		// Register shutdown-function.
+		var shutdown = function() {
+			var mypath = "https://api.clouddom.eu/loadbalancer/11/backends/" + id;
+			request.delete(mypath, { 
+				headers: {
+					"accesskey" : "test",
+					"secret":"test"	
+				},
+			},function(error, response, body) {
+				process.exit();
+			});
+		}
+		process.on( "SIGINT", shutdown);
+
+		console.log(`The server is listening on *:${PORT} with id: ${id}.`);
 	});
 });
 	
