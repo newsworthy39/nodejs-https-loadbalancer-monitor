@@ -19,7 +19,7 @@ var register = function(callback) {
 		json: true,
 		body: myjsonobject,
 	},function(error, response, body) {
-		callback(body);
+		callback(body, error);
 	});
 
 }
@@ -32,7 +32,9 @@ const app = require('http').createServer(function (req, res) {
 });
 
 app.listen(PORT, () => {
-	register( function(result) {
+	register( function(result, err) {
+		if (err) throw err;
+
 		var id = result.backendid;
 
 		// Register shutdown-function.
